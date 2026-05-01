@@ -41,6 +41,7 @@ import User from "../models/userModel.js";
 
 export default async function authMiddleware(req, res, next) {
     const authHeader = req.headers.authorization;
+    console.log("DEBUG - Incoming Authorization Header:", authHeader);
 
     // 1. CHECK: If header is missing or doesn't start with "Bearer ", reject it
     if (!authHeader || !authHeader.startsWith("Bearer ")) {

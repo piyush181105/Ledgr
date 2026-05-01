@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 
 const JWT_SECRET = process.env.JWT_SECRET;
-const TOKEN_EXPIRES = "24h";
+const TOKEN_EXPIRES = "7d";
 
 const createToken = (user_id) =>
     jwt.sign({ id: user_id }, JWT_SECRET, { expiresIn: TOKEN_EXPIRES });
@@ -74,6 +74,7 @@ export const loginUser = async (req, res) => {
         }
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
+            console.log("Password check failed for:", email);
             return res.status(401).json({
                 success: false,
                 message: "Invalid credentials"

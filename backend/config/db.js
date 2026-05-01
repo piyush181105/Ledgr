@@ -1,6 +1,17 @@
 import mongoose from "mongoose";
 
 export const connectDB = async () => {
-    await mongoose.connect("mongodb+srv://piyushjaiswal1805_db_user:6NTePTIbztC8Oi7a@cluster0.gozj1n6.mongodb.net/Ledgr ")
-        .then(() => console.log("Connected to MongoDB"));
-}
+  try {
+    // .trim() removes any accidental spaces or hidden line breaks
+    const uri = process.env.MONGO_URI.trim(); 
+    
+    await mongoose.connect(uri, {
+      serverSelectionTimeoutMS: 5000,
+    });
+    
+    console.log("MongoDB Connected!");
+  } catch (err) {
+    console.error("Connection error:", err.message);
+    process.exit(1);
+  }
+};
