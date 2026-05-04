@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import Layout from './components/Layout';
-import Dashboard from './pages/Dashboard';
+import Dashboard from './pages/TempDashboard';
 import Login from './components/Login';
 import Signup from './components/Signup';
-import Income from './pages/income';
-import Expense from './pages/expense';
-import Profile from './pages/profile';
+import Income from './pages/Income';
+import Expense from './pages/Expense';
+import Profile from './pages/Profile';
 import axios from 'axios';
 
 const API_URL = "http://localhost:4000";
