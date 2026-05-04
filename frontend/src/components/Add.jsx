@@ -17,7 +17,7 @@ const AddTransactionModal = ({
         "Utilities", "Healthcare", "Salary", "Freelance",
         "Investments", "Bonus", "Other",
     ],
-    color = "teal"
+    color = "indigo"
 }) => {
     if (!showModal) return null;
 
@@ -67,7 +67,7 @@ const AddTransactionModal = ({
                                 type="text" 
                                 value={newTransaction.description || ""} 
                                 onChange={(e) => setNewTransaction(prev => ({ ...prev, description: e.target.value }))} 
-                                className={modalStyles.input(colorClass.ring)}
+                                className={modalStyles.input("ring-indigo-500")}
                                 placeholder={type === "both" ? "Salary, Funds, etc." : "Groceries, Rent, etc"} 
                                 required
                             />
@@ -80,7 +80,7 @@ const AddTransactionModal = ({
                                 step="0.01" // Allows decimals for receipts
                                 value={newTransaction.amount || ""} 
                                 onChange={(e) => setNewTransaction(prev => ({ ...prev, amount: e.target.value }))} 
-                                className={modalStyles.input(colorClass.ring)}
+                                className={modalStyles.input("ring-indigo-500")}
                                 placeholder="0.00"
                                 required
                             />
@@ -94,7 +94,7 @@ const AddTransactionModal = ({
                                         type="button"
                                         className={modalStyles.typeButton(
                                             newTransaction.type === 'income',
-                                            modalStyles.colorClasses.teal.typeButtonSelected
+                                            modalStyles.colorClasses.indigo.typeButtonSelected
                                         )}
                                         onClick={() => setNewTransaction(prev => ({ ...prev, type: 'income' }))}
                                     >Income</button>
@@ -102,7 +102,7 @@ const AddTransactionModal = ({
                                         type="button"
                                         className={modalStyles.typeButton(
                                             newTransaction.type === 'expense',
-                                            modalStyles.colorClasses.orange.typeButtonSelected
+                                            modalStyles.colorClasses.red.typeButtonSelected
                                         )}
                                         onClick={() => setNewTransaction(prev => ({ ...prev, type: 'expense' }))}
                                     >Expense</button>

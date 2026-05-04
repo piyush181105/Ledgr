@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { loginStyles } from '../assets/dummyStyles'
 import { Mail, User, Lock, Eye, EyeOff } from 'lucide-react'
-import { useNavigate , Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
 const Login = ({ onLogin, API_URL = "http://localhost:4000" }) => {
@@ -23,131 +23,105 @@ const Login = ({ onLogin, API_URL = "http://localhost:4000" }) => {
     };
 
     const persistAuth = (profile, tokenValue) => {
-    // If tokenValue is accidentally a boolean, this will catch it
-    if (!tokenValue || tokenValue === true || tokenValue === "true") {
-        console.error("BLOCKING: Attempted to save a boolean as a token.");
-        return; 
-    }
+        // If tokenValue is accidentally a boolean, this will catch it
+        if (!tokenValue || tokenValue === true || tokenValue === "true") {
+            console.error("BLOCKING: Attempted to save a boolean as a token.");
+            return;
+        }
 
-    const storage = rememberMe ? localStorage : sessionStorage;
-    
-    try {
-        storage.setItem("token", tokenValue); // Saves the actual string
-        if (profile) storage.setItem("user", JSON.stringify(profile));
-    } catch (err) {
-        console.error("Storage Error:", err);
-    }
-};
+        const storage = rememberMe ? localStorage : sessionStorage;
+
+        try {
+            storage.setItem("token", tokenValue); // Saves the actual string
+            if (profile) storage.setItem("user", JSON.stringify(profile));
+        } catch (err) {
+            console.error("Storage Error:", err);
+        }
+    };
 
 
-   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    try {
-        const res = await axios.post(`${API_URL}/api/user/login`, { email, password });
-        
-        // 1. Get the real token and user from the response
-        const { token, user } = res.data; 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log("DEBUG: Email state is:", email); // See if it's actually blank
+        console.log("DEBUG: Password state is:", password);
+        setIsLoading(true);
+        try {
+            const res = await axios.post(`${API_URL}/api/user/login`, { email, password });
 
-        // 2. Pass ONLY these to persistAuth
-        persistAuth(user || { email }, token);
+            // 1. Get the real token and user from the response
+            const { token, user } = res.data;
 
-        navigate("/");
-    } catch (err) {
-        setError("Login failed");
-    } finally {
-        setIsLoading(false);
-    }
-};
+            // 2. Pass ONLY these to persistAuth
+            persistAuth(user || { email }, token);
+
+            navigate("/");
+        } catch (err) {
+            setError("Login failed");
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     return (
         <div className={loginStyles.pageContainer}>
-            <div className={loginStyles.cardContainer}>
-                {/* 1. Header Section */}
-                <div className={loginStyles.header}>
-                    <div className={loginStyles.avatar}>
-                        <User className="w-10 h-10 text-white" />
-                    </div>
-                    <h1 className={loginStyles.headerTitle}>Welcome Back</h1>
-                    <p className={loginStyles.headerSubtitle}>Sign in to your Ledgr Account</p>
+            {/* LEFT SIDE: Sidebar */}
+            <div className={loginStyles.sidebar}>
+                <div>
+                    <h2 className="text-2xl font-bold mb-12">Finwise AI</h2>
+                    <h1 className={loginStyles.sidebarTitle}>Take control of your money, faster.</h1>
+                    <p className={loginStyles.sidebarSubtitle}>AI-insights. Seamless tracking.</p>
                 </div>
-                {/* 2. Form Section */}
-                <div className={loginStyles.formContainer}>
-                </div>
-                {error && (
-                    <div className={loginStyles.errorContainer}>
-                        <div className={loginStyles.errorIcon}>
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                            </svg>
-                        </div>
-                        <span className={loginStyles.errorText}>{error}</span>
-                    </div>
-                )}
-                <form onSubmit={handleSubmit}>
-                    {/* Email Field */}
-                    <div className="mb-6">
-                        <label htmlFor="email" className={loginStyles.label}> Email Address </label>
-                        <div className={loginStyles.inputContainer}>
-                            <div className={loginStyles.inputIcon}>
-                                <Mail className="w-5 h-5" />
-                            </div>
-                            <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} className={loginStyles.input} placeholder="your@example.com" required />
-                        </div>
-                    </div>
-                    {/* Password Field */}
-                    <div className="mb-6">
-                        <label htmlFor="password" className={loginStyles.label}>
-                            Password
-                        </label>
-                        <div className={loginStyles.inputContainer}>
-                            <div className={loginStyles.inputIcon}>
-                                <Lock className="w-5 h-5" />
-                            </div>
-                            <input type={showPassword ? "text" : "password"} id="password" value={password} onChange={(e) => setPassword(e.target.value)} className={loginStyles.passwordInput} placeholder="......." required />
+                {/* You can put an image of your dashboard here */}
+            </div>
 
-                            <button type="button" onClick={() => setShowPassword(!showPassword)}
-                                className={loginStyles.passwordToggle}>
-                                {showPassword ? (
-                                    <EyeOff className="w-5 h-5" />
-                                ) : (
-                                    <Eye className="w-5 h-5" />
-                                )}
-                            </button>
-                        </div>
-                        <div className={loginStyles.checkboxContainer}>
-                            <input type="checkbox" id="remember" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className={loginStyles.checkbox} required />
-                            <label htmlFor="remember" className={loginStyles.checkboxLabel}>
-                                Remember Me
-                            </label>
-                        </div>
-                        <button type="submit" disabled={isLoading} className={`${loginStyles.button} ${isLoading ? loginStyles.buttonDisabled : ''}`}>
-                            {isLoading ? (
-                                <>
-                                    <svg className={loginStyles.spinner} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                                    </svg>
-                                    Signing in...
-                                </>
-                            ) : (
-                                "Sign In"
+            {/* RIGHT SIDE: Login Form */}
+            <div className={loginStyles.formWrapper}>
+                <div className={loginStyles.cardContainer}>
+                    <h1 className={loginStyles.headerTitle}>Welcome back</h1>
+                    <p className={loginStyles.headerSubtitle}>Sign in to your account to continue</p>
 
-                            )}
-                        </button>
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-6">
+                            <label className={loginStyles.label}>Email</label>
+                            <input
+                                type="email"
+                                id="email"
+                                value={email} // This must match your useState
+                                onChange={(e) => setEmail(e.target.value)} // This must match your useState setter
+                                className={loginStyles.input}
+                                placeholder="name@company.com"
+                                required
+                            />
+                        </div>
+
+                        <div className="mb-6">
+                            <label className={loginStyles.label}>Password</label>
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                id="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className={loginStyles.passwordInput}
+                                placeholder="Enter your password"
+                                required
+                            />
+                        </div>
+
+                        <button type="submit" className={loginStyles.button}>Sign in</button>
+                    </form>
+
+                    <div className="mt-6 text-center text-gray-500 text-sm">
+                        or continue with
                     </div>
-                </form>
-                <div className={loginStyles.signUpContainer}>
-                    <p className={loginStyles.signUpText}>
-                        Don't have an account ?{" "}
-                        <Link to= '/signup' className={loginStyles.signUpLink}>
-                            Create one.
-                        </Link>
-                    </p>
+
+                    <button className="w-full mt-4 py-3 border border-gray-300 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50">
+                        <img src="/google-icon.png" className="w-5 h-5" alt="Google" />
+                        Continue with Google
+                    </button>
                 </div>
-            </div >
-        </div >
+            </div>
+        </div>
     );
-};
+}
 
 export default Login;

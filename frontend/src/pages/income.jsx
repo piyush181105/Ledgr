@@ -659,7 +659,7 @@ const Income = () => {
         title="Add New Income"
         buttonText="Add Income"
         categories={["Salary", "Freelance", "Investment", "Bonus", "Other"]}
-        color="teal"
+        color="indigo"
       />
     </div>
   );

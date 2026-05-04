@@ -1,6 +1,6 @@
 import React, { use, useEffect, useRef, useState } from 'react'
 import { navbarStyles } from '../assets/dummyStyles';
-import img1 from "../assets/img1.png";
+import img from "../assets/img.png";
 import { useNavigate } from 'react-router-dom';
 import { ChevronDown, User, LogOut } from 'lucide-react';
 import axios from 'axios';
@@ -64,7 +64,7 @@ const Navbar = ({ user: propUser, onLogOut}) => {
         {/* LOGO SECTION */}
         <div className={navbarStyles.logoContainer} onClick={() => navigate("/")}>
           <div className={navbarStyles.logoImage}>
-            <img src={img1} alt="logo" />
+            <img src={img} alt="logo" />
           </div>
           <span className={navbarStyles.logoText}>Ledgr</span>
         </div>
