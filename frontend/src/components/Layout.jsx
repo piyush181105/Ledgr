@@ -1,7 +1,7 @@
 import React, { Activity, useEffect, useMemo, useState } from 'react'
 import { useNavigate, Outlet } from 'react-router-dom';
 import { navbarStyles, styles } from "../assets/dummyStyles";
-import Navbar from './navbar';
+import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import { ArrowDown, ArrowUp, Car, ChevronDown, ChevronUp, Clock, CreditCard, DollarSign, Gift, Home, Info, PieChart, PiggyBank, RefreshCw, ShoppingCart, TrendingUp, Utensils, Zap } from 'lucide-react';
 import axios from 'axios';
