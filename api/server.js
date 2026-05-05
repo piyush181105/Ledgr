@@ -6,7 +6,7 @@ import userRouter from './route/userRoute.js';
 import incomeRouter from "./route/incomeRoute.js";
 import expenseRouter from "./route/expenseRoute.js";
 import dashboardRouter from "./route/dashboardRoute.js";
-import app from "../api/index.js";
+import app from "./server.js";
 
 
 const app = express();
