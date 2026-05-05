@@ -8,3 +8,4 @@ frontend/.env
 frontend/dist/
 node_modules/
 .env
+build/
