@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/backend/$1"
+      "destination": "/api/index.js"
     },
     {
       "source": "/(.*)",

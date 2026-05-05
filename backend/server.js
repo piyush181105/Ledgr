@@ -35,6 +35,4 @@ app .get('/',(req,res)=>{
      res.send("API is working");
 })
 
-app.listen(port,()=>{
-    console.log(`Server is running on http://localhost:${port}`);
-})
+export default app;
